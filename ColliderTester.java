@@ -11,6 +11,7 @@ public class ColliderTester extends Game
 {
 		ArrayList<SpriteObject> sprites;
 		SpriteObject player;
+		SpriteObject test;
 
 		//Initializion here -------------------------------------------------------------------------------------------------
 		public ColliderTester()
@@ -25,9 +26,10 @@ public class ColliderTester extends Game
 		{
 			
 			sprites = new ArrayList<SpriteObject>();
-			sprites.add(new SpriteObject(100,100,50,50));
 			sprites.add(new SpriteObject(400,400, 100,100));
 			sprites.add(new SpriteObject(700,700, 100,100));
+			sprites.add(new SpriteObject(100,100,50,50));
+			test = (new SpriteObject(400,100,50,50));
 			player = new SpriteObject(700,500,50,50);
 		}
 		
@@ -54,31 +56,18 @@ public class ColliderTester extends Game
 			
 				g.setColor(Color.GREEN);
 				g.fillRect(player.x,player.y,player.w,player.h);
+				
+								g.setColor(Color.GREEN);
+				g.fillRect(test.x,test.y,test.w,test.h);
 			
-			
-			//sprites.get(0).c.collision(sprites.get(1).c);
-			
-			
-			for(int i=0;i<sprites.size();i++)
-			{
-				g.setColor(Color.BLACK);
-				g.setFont(new Font("Helvetica", Font.PLAIN, 25)); 
-				if(player.c.l)
-				{
-						g.drawString("Collision!",500,20);
-				}
-				else
-				{
-					//g.drawString("Nothing",500,20);
-				}
-			}
+			player.c.collision(test.c);
 			for(SpriteObject s : sprites)
 			{
-				player.c.collision(s.c);
-				//System.out.println(i);
+				if(!player.c.collision)
+				{
+					player.c.collision(s.c);
+				}
 			}
-					player.c.collision(sprites.get(0).c);
-					player.c.collision(sprites.get(1).c);
 		}
 		
 		//Handle all calculations that don't need to be syncrhronized with framerate here----------------------------
@@ -98,7 +87,6 @@ public class ColliderTester extends Game
 					if(!player.c.t)
 					{
 						player.up();
-						//System.out.println("UP");
 					}
 				}
 				if(KeyEvent.getKeyText(e.get(i).getKeyCode()) == "Down")
@@ -126,7 +114,7 @@ public class ColliderTester extends Game
 
 				}
 				
-				System.out.println(player.c.l);
+
 				//System.out.println(KeyEvent.getKeyText(e.get(i).getKeyCode())+ ": DOWN");
 			}
 		}		

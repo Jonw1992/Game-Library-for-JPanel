@@ -5,7 +5,7 @@ public class SpriteObject
 		protected int w;
 		protected int h; 
 		public Collider c;
-		private int speed = 5;
+		private int speed = 15;
 		
 		
 		public SpriteObject(int x, int y, int w, int h)
