@@ -24,7 +24,6 @@ public class ColliderTester extends Game
 		
 		public void initializeGame()
 		{
-			
 			sprites = new ArrayList<SpriteObject>();
 			sprites.add(new SpriteObject(400,400, 100,100));
 			sprites.add(new SpriteObject(700,700, 100,100));
@@ -37,16 +36,6 @@ public class ColliderTester extends Game
 		//Handle all painting here -----------------------------------------------------------------------------------------
 		public void paintIt(Graphics g)
 		{
-			try
-			{
-			
-			Runtime.getRuntime().exec("cls");				
-			}
-			catch(Exception e)
-			{
-				
-			}
-
 			for(int i=0;i<sprites.size();i++)
 			{
 				SpriteObject s = sprites.get(i);
@@ -57,13 +46,13 @@ public class ColliderTester extends Game
 				g.setColor(Color.GREEN);
 				g.fillRect(player.x,player.y,player.w,player.h);
 				
-								g.setColor(Color.GREEN);
+				g.setColor(Color.GREEN);
 				g.fillRect(test.x,test.y,test.w,test.h);
 			
 
 		}
 		
-		//Handle all calculations that don't need to be syncrhronized with framerate here----------------------------
+		//Handle calculations that don't need to be syncrhronized with framerate here----------------------------
 		public void calculateIt()
 		{
 			player.checkCollision(test.c);
@@ -74,51 +63,14 @@ public class ColliderTester extends Game
 					player.checkCollision(s.c);
 				}
 			}
-			
 			player.update();
 		}
 			
-		//A better method of moving a game object than Keylistener provides. It is synchronized with framerate.--
+		//A better method of moving a game object than Keylistener provides. It is synchronized with framerate and detects multiply key presses.
 		@Override
 		public void onKeyHeld(ArrayList<KeyEvent> e)
 		{
-		for(int i=0;i<e.size();i++)
-		{
-				if(KeyEvent.getKeyText(e.get(i).getKeyCode()) == "Up")
-				{
-					if(!player.c.t)
-					{
-						player.up();
-					}
-				}
-				if(KeyEvent.getKeyText(e.get(i).getKeyCode()) == "Down")
-				{
-					if(!player.c.b)
-					{
-						player.down();
-					}
-					
-				}
-				if(KeyEvent.getKeyText(e.get(i).getKeyCode()) == "Left")
-				{
-					if(!player.c.l)
-					{
-					player.left();
-					}
-					
-				}
-				if(KeyEvent.getKeyText(e.get(i).getKeyCode()) == "Right")
-				{
-					if(!player.c.r)
-					{				
-					player.right();
-					}
-
-				}
-				
-
-				//System.out.println(KeyEvent.getKeyText(e.get(i).getKeyCode())+ ": DOWN");
-			}
+			player.moveWithInput(e);
 		}		
 		@Override
 		
@@ -132,7 +84,7 @@ public class ColliderTester extends Game
 		@Override
 		public void onKeyReleased(KeyEvent e)
 		{
-				//System.out.println(KeyEvent.getKeyText(e.getKeyCode())+ ": RELEASED");
+
 		}
 		
 		@Override

@@ -1,10 +1,15 @@
+import java.awt.event.KeyEvent;
+import java.lang.Object.*;
+import java.awt.*;
+import java.util.*;
+
 public class SpriteObject
 {
 		protected int x;
 		protected int y; 
 		protected int w;
 		protected int h; 
-		public Collider c;
+		protected Collider c;
 		private int speed = 20;
 		
 		
@@ -76,9 +81,39 @@ public class SpriteObject
 			}
 		}
 		
-		public void fixOverlap()
+		public void moveWithInput(ArrayList<KeyEvent> e)
 		{
-
+			for(int i=0;i<e.size();i++)
+			{
+				if(KeyEvent.getKeyText(e.get(i).getKeyCode()) == "Up")
+				{
+					if(!c.t)
+					{
+						up();
+					}
+				}
+				if(KeyEvent.getKeyText(e.get(i).getKeyCode()) == "Down")
+				{
+					if(!c.b)
+					{
+						down();
+					}	
+				}
+				if(KeyEvent.getKeyText(e.get(i).getKeyCode()) == "Left")
+				{
+					if(!c.l)
+					{
+						left();
+					}
+				}
+				if(KeyEvent.getKeyText(e.get(i).getKeyCode()) == "Right")
+				{
+					if(!c.r)
+					{				
+						right();
+					}
+				}
+			}
 		}
 		
 

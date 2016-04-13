@@ -19,10 +19,8 @@ import javax.swing.*;
 		
 		//Some key information to determine if a key is being held down or not 
 		private ArrayList<KeyEvent> events;
-		private KeyEvent event;
-		private boolean keyHeld;
 		
-		
+		//Boolean to keep the the faster thread from proceeding before everything is initialized 
 		private boolean hasPaintStarted = false;
 		
 		//Methods to be overridden in extending class that will control the game 
@@ -34,25 +32,20 @@ import javax.swing.*;
 		public abstract void onKeyHeld(ArrayList<KeyEvent> e);
 		public abstract void initializeGame();
 	
-		//initialize
+		//Initialize
 		public void startTheGame() 
 		{
 			addKeyListener(new KeyListener());
-			new PaintThread().start();
 			events = new ArrayList<KeyEvent>();
-
-		}
+			new PaintThread().start();
+		}	
 		
-
-		
-		
-		//override paint to draw to screen 
+		//Override paint to draw to screen
 		@Override
 		public void paintComponent(Graphics g) 
 		{
-						super.paintComponent(g);
+			super.paintComponent(g);
 			paintIt(g);
-
 		}
 		
 		
@@ -96,10 +89,8 @@ import javax.swing.*;
 				}
 			}
 		}		
-		
-
-		
-		//KeyListener
+				
+		//KeyListener to call methods in extending class 
 		class KeyListener extends KeyAdapter
 		{
 			public KeyListener(){}
@@ -119,46 +110,24 @@ import javax.swing.*;
 					{
 						found = true;
 					}
-					
-					
 				}
 				if(!found)
 				{
-				events.add(e);
+					events.add(e);
 				}
 				onKeyDown(e);
-				//System.out.println("\n PRESSED");
-				
-				
-				for(int i=0;i<events.size();i++)
-				{
-					//System.out.println(KeyEvent.getKeyText(events.get(i).getKeyCode()));
-				}
 			}
 			@Override
 			public void keyReleased(KeyEvent e)
 			{
-
-						events.remove(e);
-
 				onKeyReleased(e);	
 				for(int i=0;i<events.size();i++)
 				{
 					if(KeyEvent.getKeyText(events.get(i).getKeyCode()) == KeyEvent.getKeyText(e.getKeyCode()))
 					{
 						events.remove(i);
-					}
-					
-					
-				}
-				
-				//System.out.println("\n RELEASED");
-				for(int i=0;i<events.size();i++)
-				{
-					//System.out.println(KeyEvent.getKeyText(events.get(i).getKeyCode()));
+					}	
 				}
 			}
-
 		}
-		
 	}

@@ -22,7 +22,6 @@ public class Collider
 		l = r = t = b =collision = overlapping = false; 
 	}
 		
-		
 	public void collision(Collider c)
 	{
 
