@@ -24,6 +24,12 @@ public class GameController extends Game
 			
 		}
 		
+		public void initializeGame()
+		{
+			
+			
+		}
+		
 		
 		//Handle all painting here -----------------------------------------------------------------------------------------
 		public void paintIt(Graphics g)
@@ -46,7 +52,7 @@ public class GameController extends Game
 			
 		//A better method of moving a game object than Keylistener provides. It is synchronized with framerate.--
 		@Override
-		public void onKeyHeld(KeyEvent e)
+		public void onKeyHeld(ArrayList<KeyEvent> e)
 		{
 
 			

@@ -18,9 +18,12 @@ import javax.swing.*;
 		//Graphics buffer to calculate paint things behind the scenes before painting that to the screen 
 		
 		//Some key information to determine if a key is being held down or not 
+		private ArrayList<KeyEvent> events;
 		private KeyEvent event;
 		private boolean keyHeld;
 		
+		
+		private boolean hasPaintStarted = false;
 		
 		//Methods to be overridden in extending class that will control the game 
 		public abstract void paintIt(Graphics g);
@@ -28,13 +31,15 @@ import javax.swing.*;
 		public abstract void onKeyDown(KeyEvent e);
 		public abstract void onKeyReleased(KeyEvent e);
 		public abstract void onKeyTyped(KeyEvent e);
-		public abstract void onKeyHeld(KeyEvent e);
-		
+		public abstract void onKeyHeld(ArrayList<KeyEvent> e);
+		public abstract void initializeGame();
+	
 		//initialize
 		public void startTheGame() 
 		{
 			addKeyListener(new KeyListener());
 			new PaintThread().start();
+			events = new ArrayList<KeyEvent>();
 
 		}
 		
@@ -56,13 +61,14 @@ import javax.swing.*;
 		{
 			public void run() 
 			{
+				initializeGame();
 				new CalculateThread().start();
 				while(true)
 				{
 					//for keeping transition between two buttons held at once smooth
-					if(keyHeld)
+					if(events.size()>0)
 					{
-						onKeyHeld(event);
+						onKeyHeld(events);
 					}
 					repaint();
 
@@ -71,17 +77,22 @@ import javax.swing.*;
 						Thread.sleep(1000/FRAMERATE);
 					} 
 					catch (InterruptedException e) {}
+					hasPaintStarted = true;
 				}
 			}
 			//Thread that runs as fast as possible for other calculations 
 			public class CalculateThread extends Thread 
 			{
 				public void run() 
-				{
+				{	
+					System.out.println("Waiting on other thread...");
+					while (!hasPaintStarted){}
+					System.out.println("All threads started.");
 					while(true)
 					{
 						calculateIt();
 					}
+					
 				}
 			}
 		}		
@@ -101,18 +112,51 @@ import javax.swing.*;
 			@Override
 			public void keyPressed(KeyEvent e)
 			{
-				event = e;
-				keyHeld = true;
+				boolean found = false;
+				for(int i=0;i<events.size();i++)
+				{
+					if(KeyEvent.getKeyText(events.get(i).getKeyCode()) == KeyEvent.getKeyText(e.getKeyCode()))
+					{
+						found = true;
+					}
+					
+					
+				}
+				if(!found)
+				{
+				events.add(e);
+				}
 				onKeyDown(e);
+				//System.out.println("\n PRESSED");
+				
+				
+				for(int i=0;i<events.size();i++)
+				{
+					//System.out.println(KeyEvent.getKeyText(events.get(i).getKeyCode()));
+				}
 			}
 			@Override
 			public void keyReleased(KeyEvent e)
 			{
-				if(event.getKeyCode() == e.getKeyCode())
+
+						events.remove(e);
+
+				onKeyReleased(e);	
+				for(int i=0;i<events.size();i++)
 				{
-				keyHeld = false;
+					if(KeyEvent.getKeyText(events.get(i).getKeyCode()) == KeyEvent.getKeyText(e.getKeyCode()))
+					{
+						events.remove(i);
+					}
+					
+					
 				}
-				onKeyReleased(e);
+				
+				//System.out.println("\n RELEASED");
+				for(int i=0;i<events.size();i++)
+				{
+					//System.out.println(KeyEvent.getKeyText(events.get(i).getKeyCode()));
+				}
 			}
 
 		}
