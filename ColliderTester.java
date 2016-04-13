@@ -9,9 +9,9 @@ import java.awt.event.KeyListener;
 
 public class ColliderTester extends Game
 {
-		ArrayList<SpriteObject> sprites;
-		SpriteObject player;
-		SpriteObject test;
+		private ArrayList<SpriteObject> sprites;
+		private SpriteObject player;
+		private SpriteObject test;
 
 		//Initializion here -------------------------------------------------------------------------------------------------
 		public ColliderTester()
@@ -60,20 +60,22 @@ public class ColliderTester extends Game
 								g.setColor(Color.GREEN);
 				g.fillRect(test.x,test.y,test.w,test.h);
 			
-			player.c.collision(test.c);
-			for(SpriteObject s : sprites)
-			{
-				if(!player.c.collision)
-				{
-					player.c.collision(s.c);
-				}
-			}
+
 		}
 		
 		//Handle all calculations that don't need to be syncrhronized with framerate here----------------------------
 		public void calculateIt()
 		{
-
+			player.checkCollision(test.c);
+			for(SpriteObject s : sprites)
+			{
+				if(!player.c.collision)
+				{
+					player.checkCollision(s.c);
+				}
+			}
+			
+			player.update();
 		}
 			
 		//A better method of moving a game object than Keylistener provides. It is synchronized with framerate.--
