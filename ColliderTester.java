@@ -19,7 +19,6 @@ public class ColliderTester extends Game
 			super.startTheGame();
 			setFocusable(true);
 			setFocusTraversalKeysEnabled(false);
-
 		}
 		
 		public void initializeGame()
@@ -29,13 +28,14 @@ public class ColliderTester extends Game
 			sprites.add(new SpriteObject(700,700, 100,100));
 			sprites.add(new SpriteObject(100,100,50,50));
 			test = (new SpriteObject(400,100,50,50));
-			player = new SpriteObject(700,500,50,50);
+			player = new SpriteObject("Sprites/spritesheet.png",700,500,50,50);
 		}
 		
 		
 		//Handle all painting here -----------------------------------------------------------------------------------------
 		public void paintIt(Graphics g)
 		{
+			Graphics2D g2 = (Graphics2D)g;
 			for(int i=0;i<sprites.size();i++)
 			{
 				SpriteObject s = sprites.get(i);
@@ -43,11 +43,12 @@ public class ColliderTester extends Game
 				g.fillRect(s.x,s.y,s.w,s.h);				
 			}
 			
-				g.setColor(Color.GREEN);
-				g.fillRect(player.x,player.y,player.w,player.h);
+				//g.setColor(Color.GREEN);
+			//	g.fillRect(player.x,player.y,player.w,player.h);
+			player.drawSprite(g2);
 				
-				g.setColor(Color.GREEN);
-				g.fillRect(test.x,test.y,test.w,test.h);
+			g.setColor(Color.GREEN);
+			g.fillRect(test.x,test.y,test.w,test.h);
 			
 
 		}
@@ -77,7 +78,7 @@ public class ColliderTester extends Game
 		//These are called from a standard KeyListener-------------------------------------------------------------------
 		public void onKeyDown(KeyEvent e)
 		{
-
+			//player.moveWithInput(e);
 			
 		}
 		

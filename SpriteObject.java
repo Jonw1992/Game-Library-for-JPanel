@@ -3,6 +3,7 @@ import java.lang.Object.*;
 import java.awt.*;
 import java.util.*;
 
+
 public class SpriteObject
 {
 		protected int x;
@@ -10,8 +11,19 @@ public class SpriteObject
 		protected int w;
 		protected int h; 
 		protected Collider c;
-		private int speed = 20;
+		private int speed = 5;
+		private SpriteSheet spritesheet;
 		
+		
+		public SpriteObject(String url,int x, int y, int w, int h)
+		{
+			spritesheet = new SpriteSheet(url);
+			this.x = x;
+			this.y = y;
+			this.w = w; 
+			this.h = h; 
+			c = new Collider(x,y,w,h);
+		}
 		
 		public SpriteObject(int x, int y, int w, int h)
 		{
@@ -22,30 +34,40 @@ public class SpriteObject
 			c = new Collider(x,y,w,h);
 		}
 		
+		public void drawSprite(Graphics2D g)
+		{
+			g.drawImage(spritesheet.getCurImage() ,x,y,w,h, null);
+		}
+		
 		
 		public void up()
 		{
-			this.y-=speed;			
+			this.y-=speed;
+			spritesheet.walkUp();			
 		}
 
 		public void down()
 		{
 			this.y+=speed;
+			spritesheet.walkDown();
 		}
 		
 		public void left()
 		{
 			this.x-=speed;
+			spritesheet.walkLeft();
 		}
 		
 		public void right()
 		{
 			this.x+=speed;
+			spritesheet.walkRight();
 		}
 		
 		public void update()
 		{
-			c.updateCollider(x,y,w,h);	
+			c.updateCollider(x,y,w,h);
+			//spritesheet.update();
 		}
 		
 		public void checkCollision(Collider c)
