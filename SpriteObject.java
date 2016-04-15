@@ -103,32 +103,32 @@ public class SpriteObject
 			}
 		}
 		
-		public void moveWithInput(ArrayList<KeyEvent> e)
+		public void moveWithInput(ArrayList<KeyEvent> eList)
 		{
-			for(int i=0;i<e.size();i++)
+			for(KeyEvent e: eList)
 			{
-				if(KeyEvent.getKeyText(e.get(i).getKeyCode()) == "Up")
+				if(e.getKeyCode() == KeyEvent.VK_UP)
 				{
 					if(!c.t)
 					{
 						up();
 					}
 				}
-				if(KeyEvent.getKeyText(e.get(i).getKeyCode()) == "Down")
+				if(e.getKeyCode() == KeyEvent.VK_DOWN)
 				{
 					if(!c.b)
 					{
 						down();
 					}	
 				}
-				if(KeyEvent.getKeyText(e.get(i).getKeyCode()) == "Left")
+				if(e.getKeyCode() == KeyEvent.VK_LEFT)
 				{
 					if(!c.l)
 					{
 						left();
 					}
 				}
-				if(KeyEvent.getKeyText(e.get(i).getKeyCode()) == "Right")
+				if(e.getKeyCode() == KeyEvent.VK_RIGHT)
 				{
 					if(!c.r)
 					{				

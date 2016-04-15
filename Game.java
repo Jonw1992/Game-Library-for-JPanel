@@ -64,13 +64,13 @@ import javax.swing.*;
 						onKeyHeld(events);
 					}
 					repaint();
-
+					hasPaintStarted = true;
 					try 
 					{
 						Thread.sleep(1000/FRAMERATE);
 					} 
 					catch (InterruptedException e) {}
-					hasPaintStarted = true;
+
 				}
 			}
 			//Thread that runs as fast as possible for other calculations 
